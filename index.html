@@ -1,0 +1,916 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>画像生成AIツール検索システム</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            padding: 40px;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .title {
+            font-size: 2.5em;
+            color: #333;
+            margin-bottom: 10px;
+            font-weight: 700;
+        }
+
+        .subtitle {
+            font-size: 1.1em;
+            color: #666;
+        }
+
+        .search-section {
+            margin-bottom: 40px;
+        }
+
+        .search-container {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+
+        .search-input {
+            flex: 1;
+            min-width: 300px;
+            padding: 15px 20px;
+            font-size: 16px;
+            border: 2px solid #e1e5e9;
+            border-radius: 50px;
+            outline: none;
+            transition: all 0.3s ease;
+        }
+
+        .search-input:focus {
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+
+        .search-btn {
+            padding: 15px 30px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 50px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .search-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(102, 126, 234, 0.3);
+        }
+
+        .filters {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+            align-items: center;
+        }
+
+        .filter-group {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .filter-label {
+            font-weight: 600;
+            color: #555;
+        }
+
+        .filter-select {
+            padding: 8px 15px;
+            border: 2px solid #e1e5e9;
+            border-radius: 25px;
+            outline: none;
+            font-size: 14px;
+        }
+
+        .results-section {
+            margin-bottom: 40px;
+        }
+
+        .results-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .results-count {
+            font-size: 1.1em;
+            color: #666;
+        }
+
+        .sort-container {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .tools-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 25px;
+        }
+
+        .tool-card {
+            background: white;
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+            transition: all 0.3s ease;
+            border: 1px solid #f0f0f0;
+        }
+
+        .tool-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
+        }
+
+        .tool-header {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 15px;
+        }
+
+        .tool-icon {
+            width: 50px;
+            height: 50px;
+            border-radius: 10px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            font-size: 20px;
+        }
+
+        .tool-info h3 {
+            font-size: 1.3em;
+            color: #333;
+            margin-bottom: 5px;
+        }
+
+        .tool-category {
+            font-size: 0.9em;
+            color: #888;
+            background: #f8f9fa;
+            padding: 4px 12px;
+            border-radius: 20px;
+            display: inline-block;
+        }
+
+        .tool-description {
+            color: #666;
+            line-height: 1.6;
+            margin-bottom: 15px;
+        }
+
+        .tool-features {
+            margin-bottom: 15px;
+        }
+
+        .features-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .feature-tag {
+            background: #e8f4f8;
+            color: #2c5aa0;
+            padding: 4px 10px;
+            border-radius: 15px;
+            font-size: 0.85em;
+            font-weight: 500;
+        }
+
+        .tool-pricing {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .pricing-info {
+            font-weight: 600;
+            color: #333;
+        }
+
+        .rating {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .stars {
+            color: #ffc107;
+        }
+
+        .rating-value {
+            font-weight: 600;
+            color: #333;
+        }
+
+        .tool-actions {
+            display: flex;
+            gap: 10px;
+        }
+
+        .btn {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 25px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+            text-align: center;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        .btn-secondary {
+            background: white;
+            color: #667eea;
+            border: 2px solid #667eea;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .no-results {
+            text-align: center;
+            padding: 60px 20px;
+            color: #888;
+        }
+
+        .no-results-icon {
+            font-size: 4em;
+            margin-bottom: 20px;
+        }
+
+        .no-results-text {
+            font-size: 1.2em;
+            margin-bottom: 10px;
+        }
+
+        .footer {
+            text-align: center;
+            margin-top: 40px;
+            padding-top: 20px;
+            border-top: 1px solid #e1e5e9;
+            color: #888;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 20px;
+            }
+            
+            .title {
+                font-size: 2em;
+            }
+            
+            .search-container {
+                flex-direction: column;
+            }
+            
+            .search-input {
+                min-width: auto;
+            }
+            
+            .tools-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .filters {
+                justify-content: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1 class="title">🎨 AI画像生成ツール検索</h1>
+            <p class="subtitle">あなたにぴったりの画像生成AIツールを見つけよう</p>
+        </div>
+
+        <div class="search-section">
+            <div class="search-container">
+                <input type="text" class="search-input" id="searchInput" placeholder="ツール名やキーワードで検索...">
+                <button class="search-btn" onclick="searchTools()">🔍 検索</button>
+            </div>
+            
+            <div class="filters">
+                <div class="filter-group">
+                    <label class="filter-label">カテゴリ:</label>
+                    <select class="filter-select" id="categoryFilter" onchange="filterTools()">
+                        <option value="">すべて</option>
+                        <option value="text-to-image">テキスト→画像</option>
+                        <option value="image-to-image">画像→画像</option>
+                        <option value="ai-art">AIアート</option>
+                        <option value="photo-editing">写真編集</option>
+                        <option value="design">デザイン</option>
+                    </select>
+                </div>
+                
+                <div class="filter-group">
+                    <label class="filter-label">料金:</label>
+                    <select class="filter-select" id="pricingFilter" onchange="filterTools()">
+                        <option value="">すべて</option>
+                        <option value="free">無料</option>
+                        <option value="freemium">フリーミアム</option>
+                        <option value="paid">有料</option>
+                    </select>
+                </div>
+                
+                <div class="filter-group">
+                    <label class="filter-label">難易度:</label>
+                    <select class="filter-select" id="difficultyFilter" onchange="filterTools()">
+                        <option value="">すべて</option>
+                        <option value="beginner">初心者向け</option>
+                        <option value="intermediate">中級者向け</option>
+                        <option value="advanced">上級者向け</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+
+        <div class="results-section">
+            <div class="results-header">
+                <div class="results-count" id="resultsCount">全24個のツールが見つかりました</div>
+                <div class="sort-container">
+                    <label class="filter-label">並び替え:</label>
+                    <select class="filter-select" id="sortSelect" onchange="sortTools()">
+                        <option value="name">名前順</option>
+                        <option value="rating">評価順</option>
+                        <option value="popularity">人気順</option>
+                        <option value="price">料金順</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="tools-grid" id="toolsGrid">
+                <!-- ツールカードがここに動的に生成されます -->
+            </div>
+            
+            <div class="no-results" id="noResults" style="display: none;">
+                <div class="no-results-icon">🔍</div>
+                <div class="no-results-text">該当するツールが見つかりませんでした</div>
+                <div>検索条件を変更してお試しください</div>
+            </div>
+        </div>
+
+        <div class="footer">
+            <p>&copy; 2024 AI画像生成ツール検索システム. Made with ❤️ for creators.</p>
+        </div>
+    </div>
+
+    <script>
+        // 画像生成AIツールのデータベース
+        const aiTools = [
+            {
+                id: 1,
+                name: "DALL-E 3",
+                category: "text-to-image",
+                description: "OpenAIが開発した最新の画像生成AI。自然言語での詳細な指示に対応し、高精度な画像を生成。",
+                features: ["高精度生成", "自然言語対応", "ChatGPT統合", "商用利用可"],
+                pricing: "paid",
+                price: "$20/月",
+                rating: 4.8,
+                difficulty: "beginner",
+                popularity: 95,
+                url: "https://openai.com/dall-e-3",
+                icon: "🎨"
+            },
+            {
+                id: 2,
+                name: "Midjourney",
+                category: "ai-art",
+                description: "アーティスティックで美しい画像生成に特化したAI。Discord経由でアクセス可能。",
+                features: ["アート特化", "高品質出力", "コミュニティ", "バリエーション生成"],
+                pricing: "paid",
+                price: "$10/月～",
+                rating: 4.9,
+                difficulty: "intermediate",
+                popularity: 92,
+                url: "https://midjourney.com",
+                icon: "🖼️"
+            },
+            {
+                id: 3,
+                name: "Stable Diffusion",
+                category: "text-to-image",
+                description: "オープンソースの画像生成AI。ローカル実行可能で自由度が高い。",
+                features: ["オープンソース", "ローカル実行", "カスタマイズ可", "無料"],
+                pricing: "free",
+                price: "無料",
+                rating: 4.6,
+                difficulty: "advanced",
+                popularity: 88,
+                url: "https://stability.ai",
+                icon: "🔧"
+            },
+            {
+                id: 4,
+                name: "Adobe Firefly",
+                category: "design",
+                description: "Adobe Creative Cloudに統合された商用利用に安全な画像生成AI。",
+                features: ["Adobe統合", "商用安全", "高品質", "プロ向け"],
+                pricing: "freemium",
+                price: "無料プラン有",
+                rating: 4.5,
+                difficulty: "beginner",
+                popularity: 85,
+                url: "https://firefly.adobe.com",
+                icon: "🔥"
+            },
+            {
+                id: 5,
+                name: "Leonardo AI",
+                category: "text-to-image",
+                description: "ゲームアセットやキャラクター生成に特化したAI画像生成ツール。",
+                features: ["ゲーム特化", "キャラクター生成", "アセット作成", "リアルタイム"],
+                pricing: "freemium",
+                price: "無料プラン有",
+                rating: 4.4,
+                difficulty: "intermediate",
+                popularity: 78,
+                url: "https://leonardo.ai",
+                icon: "🎮"
+            },
+            {
+                id: 6,
+                name: "Canva AI",
+                category: "design",
+                description: "Canvaに統合されたAI画像生成機能。デザイン作業を効率化。",
+                features: ["デザイン統合", "テンプレート", "簡単操作", "チーム共有"],
+                pricing: "freemium",
+                price: "無料プラン有",
+                rating: 4.2,
+                difficulty: "beginner",
+                popularity: 82,
+                url: "https://canva.com",
+                icon: "🎯"
+            },
+            {
+                id: 7,
+                name: "RunwayML",
+                category: "image-to-image",
+                description: "画像から画像への変換や動画生成も可能なクリエイティブAIツール。",
+                features: ["画像変換", "動画生成", "リアルタイム", "プロ向け"],
+                pricing: "paid",
+                price: "$15/月～",
+                rating: 4.6,
+                difficulty: "intermediate",
+                popularity: 75,
+                url: "https://runwayml.com",
+                icon: "🎬"
+            },
+            {
+                id: 8,
+                name: "Artbreeder",
+                category: "ai-art",
+                description: "画像をブレンドして新しいアートを作成。ポートレートや風景に特化。",
+                features: ["画像ブレンド", "ポートレート", "風景", "コミュニティ"],
+                pricing: "freemium",
+                price: "無料プラン有",
+                rating: 4.1,
+                difficulty: "beginner",
+                popularity: 68,
+                url: "https://artbreeder.com",
+                icon: "🧬"
+            },
+            {
+                id: 9,
+                name: "DeepAI",
+                category: "text-to-image",
+                description: "シンプルなインターフェースで手軽に画像生成できるAIツール。",
+                features: ["シンプル", "API提供", "多様なスタイル", "高速"],
+                pricing: "freemium",
+                price: "無料プラン有",
+                rating: 3.9,
+                difficulty: "beginner",
+                popularity: 65,
+                url: "https://deepai.org",
+                icon: "🤖"
+            },
+            {
+                id: 10,
+                name: "NightCafe",
+                category: "ai-art",
+                description: "アート作品の生成に特化。様々なスタイルとアルゴリズムを選択可能。",
+                features: ["アート特化", "スタイル選択", "コンテスト", "プリント販売"],
+                pricing: "freemium",
+                price: "無料プラン有",
+                rating: 4.3,
+                difficulty: "beginner",
+                popularity: 72,
+                url: "https://nightcafe.studio",
+                icon: "🌙"
+            },
+            {
+                id: 11,
+                name: "Jasper Art",
+                category: "text-to-image",
+                description: "マーケティング素材に特化したAI画像生成。ビジネス用途に最適。",
+                features: ["マーケティング特化", "ビジネス向け", "高品質", "商用利用"],
+                pricing: "paid",
+                price: "$20/月～",
+                rating: 4.4,
+                difficulty: "beginner",
+                popularity: 70,
+                url: "https://jasper.ai",
+                icon: "💼"
+            },
+            {
+                id: 12,
+                name: "Photosonic",
+                category: "text-to-image",
+                description: "Writesonicの画像生成AI。リアルなフォトグラフィックな画像を生成。",
+                features: ["フォトリアル", "高解像度", "商用利用可", "API提供"],
+                pricing: "freemium",
+                price: "無料プラン有",
+                rating: 4.0,
+                difficulty: "beginner",
+                popularity: 63,
+                url: "https://photosonic.writesonic.com",
+                icon: "📸"
+            },
+            {
+                id: 13,
+                name: "Dream by WOMBO",
+                category: "ai-art",
+                description: "モバイルアプリで手軽にAIアートを作成。シンプルで使いやすい。",
+                features: ["モバイル対応", "シンプル", "無料", "SNS共有"],
+                pricing: "freemium",
+                price: "無料プラン有",
+                rating: 4.1,
+                difficulty: "beginner",
+                popularity: 80,
+                url: "https://dream.ai",
+                icon: "📱"
+            },
+            {
+                id: 14,
+                name: "Craiyon",
+                category: "text-to-image",
+                description: "旧DALL-E miniの後継。無料で使えるシンプルな画像生成AI。",
+                features: ["完全無料", "シンプル", "高速", "9枚同時生成"],
+                pricing: "free",
+                price: "無料",
+                rating: 3.7,
+                difficulty: "beginner",
+                popularity: 76,
+                url: "https://craiyon.com",
+                icon: "🖍️"
+            },
+            {
+                id: 15,
+                name: "Playground AI",
+                category: "text-to-image",
+                description: "1日1000枚まで無料で生成可能。多様なモデルとスタイルをサポート。",
+                features: ["大量無料生成", "多様なモデル", "インペインティング", "アウトペインティング"],
+                pricing: "freemium",
+                price: "無料プラン有",
+                rating: 4.2,
+                difficulty: "intermediate",
+                popularity: 74,
+                url: "https://playgroundai.com",
+                icon: "🏀"
+            },
+            {
+                id: 16,
+                name: "BlueWillow",
+                category: "text-to-image",
+                description: "Discord経由で無料利用可能。Midjourneyの無料代替として人気。",
+                features: ["完全無料", "Discord統合", "高品質", "コミュニティ"],
+                pricing: "free",
+                price: "無料",
+                rating: 4.0,
+                difficulty: "beginner",
+                popularity: 71,
+                url: "https://bluewillow.ai",
+                icon: "🌿"
+            },
+            {
+                id: 17,
+                name: "Lexica",
+                category: "text-to-image",
+                description: "Stable Diffusionベースの画像生成とプロンプト検索機能。",
+                features: ["プロンプト検索", "高品質生成", "インスピレーション", "コミュニティ"],
+                pricing: "freemium",
+                price: "無料プラン有",
+                rating: 4.3,
+                difficulty: "intermediate",
+                popularity: 67,
+                url: "https://lexica.art",
+                icon: "📚"
+            },
+            {
+                id: 18,
+                name: "Picsart AI",
+                category: "photo-editing",
+                description: "写真編集アプリに統合されたAI機能。背景除去や画像生成が可能。",
+                features: ["写真編集統合", "背景除去", "オブジェクト除去", "モバイル対応"],
+                pricing: "freemium",
+                price: "無料プラン有",
+                rating: 4.1,
+                difficulty: "beginner",
+                popularity: 79,
+                url: "https://picsart.com",
+                icon: "✂️"
+            },
+            {
+                id: 19,
+                name: "Fotor AI",
+                category: "photo-editing",
+                description: "オンライン写真エディターに統合されたAI画像生成機能。",
+                features: ["写真編集", "AIエンハンス", "背景変更", "バッチ処理"],
+                pricing: "freemium",
+                price: "無料プラン有",
+                rating: 3.9,
+                difficulty: "beginner",
+                popularity: 64,
+                url: "https://fotor.com",
+                icon: "🖼️"
+            },
+            {
+                id: 20,
+                name: "Bing Image Creator",
+                category: "text-to-image",
+                description: "MicrosoftのBing検索に統合されたDALL-E 3ベースの画像生成。",
+                features: ["DALL-E 3ベース", "無料", "Bing統合", "高品質"],
+                pricing: "free",
+                price: "無料",
+                rating: 4.4,
+                difficulty: "beginner",
+                popularity: 83,
+                url: "https://bing.com/images/create",
+                icon: "🔍"
+            },
+            {
+                id: 21,
+                name: "Ideogram",
+                category: "text-to-image",
+                description: "テキストを含む画像生成に特化。ロゴやタイポグラフィに強い。",
+                features: ["テキスト生成", "ロゴ作成", "タイポグラフィ", "高精度"],
+                pricing: "freemium",
+                price: "無料プラン有",
+                rating: 4.2,
+                difficulty: "intermediate",
+                popularity: 69,
+                url: "https://ideogram.ai",
+                icon: "📝"
+            },
+            {
+                id: 22,
+                name: "Clipdrop",
+                category: "image-to-image",
+                description: "Stability AIが提供する画像編集ツール群。様々なAI機能を統合。",
+                features: ["多機能", "背景除去", "アップスケール", "インペインティング"],
+                pricing: "freemium",
+                price: "無料プラン有",
+                rating: 4.1,
+                difficulty: "intermediate",
+                popularity: 66,
+                url: "https://clipdrop.co",
+                icon: "📎"
+            },
+            {
+                id: 23,
+                name: "Hotpot AI",
+                category: "text-to-image",
+                description: "様々なAIツールを提供するプラットフォーム。画像生成から編集まで。",
+                features: ["多機能プラットフォーム", "画像修復", "カラー化", "アップスケール"],
+                pricing: "freemium",
+                price: "無料プラン有",
+                rating: 3.8,
+                difficulty: "beginner",
+                popularity: 61,
+                url: "https://hotpot.ai",
+                icon: "🍲"
+            },
+            {
+                id: 24,
+                name: "Picso",
+                category: "text-to-image",
+                description: "アニメ、リアル、アートなど多様なスタイルで画像生成可能。",
+                features: ["多様なスタイル", "アニメ対応", "高速生成", "モバイル対応"],
+                pricing: "freemium",
+                price: "無料プラン有",
+                rating: 4.0,
+                difficulty: "beginner",
+                popularity: 58,
+                url: "https://picso.ai",
+                icon: "🎭"
+            }
+        ];
+
+        let filteredTools = [...aiTools];
+        let currentSort = 'name';
+
+        // ツールカードを生成する関数
+        function createToolCard(tool) {
+            const stars = '★'.repeat(Math.floor(tool.rating)) + 
+                         (tool.rating % 1 >= 0.5 ? '☆' : '') +
+                         '☆'.repeat(5 - Math.ceil(tool.rating));
+
+            return `
+                <div class="tool-card">
+                    <div class="tool-header">
+                        <div class="tool-icon">${tool.icon}</div>
+                        <div class="tool-info">
+                            <h3>${tool.name}</h3>
+                            <span class="tool-category">${getCategoryName(tool.category)}</span>
+                        </div>
+                    </div>
+                    <div class="tool-description">${tool.description}</div>
+                    <div class="tool-features">
+                        <div class="features-list">
+                            ${tool.features.map(feature => 
+                                `<span class="feature-tag">${feature}</span>`
+                            ).join('')}
+                        </div>
+                    </div>
+                    <div class="tool-pricing">
+                        <div class="pricing-info">${tool.price}</div>
+                        <div class="rating">
+                            <span class="stars">${stars}</span>
+                            <span class="rating-value">${tool.rating}</span>
+                        </div>
+                    </div>
+                    <div class="tool-actions">
+                        <a href="${tool.url}" target="_blank" class="btn btn-primary">試してみる</a>
+                        <button class="btn btn-secondary" onclick="showToolDetails(${tool.id})">詳細</button>
+                    </div>
+                </div>
+            `;
+        }
+
+        // カテゴリ名を日本語に変換
+        function getCategoryName(category) {
+            const categoryNames = {
+                'text-to-image': 'テキスト→画像',
+                'image-to-image': '画像→画像',
+                'ai-art': 'AIアート',
+                'photo-editing': '写真編集',
+                'design': 'デザイン'
+            };
+            return categoryNames[category] || category;
+        }
+
+        // ツールを表示する関数
+        function displayTools(tools) {
+            const toolsGrid = document.getElementById('toolsGrid');
+            const noResults = document.getElementById('noResults');
+            const resultsCount = document.getElementById('resultsCount');
+
+            if (tools.length === 0) {
+                toolsGrid.style.display = 'none';
+                noResults.style.display = 'block';
+                resultsCount.textContent = '該当するツールが見つかりませんでした';
+            } else {
+                toolsGrid.style.display = 'grid';
+                noResults.style.display = 'none';
+                toolsGrid.innerHTML = tools.map(tool => createToolCard(tool)).join('');
+                resultsCount.textContent = `${tools.length}個のツールが見つかりました`;
+            }
+        }
+
+        // 検索機能
+        function searchTools() {
+            const searchTerm = document.getElementById('searchInput').value.toLowerCase();
+            
+            filteredTools = aiTools.filter(tool => 
+                tool.name.toLowerCase().includes(searchTerm) ||
+                tool.description.toLowerCase().includes(searchTerm) ||
+                tool.features.some(feature => feature.toLowerCase().includes(searchTerm))
+            );
+            
+            applyFilters();
+        }
+
+        // フィルター機能
+        function filterTools() {
+            applyFilters();
+        }
+
+        function applyFilters() {
+            const categoryFilter = document.getElementById('categoryFilter').value;
+            const pricingFilter = document.getElementById('pricingFilter').value;
+            const difficultyFilter = document.getElementById('difficultyFilter').value;
+            const searchTerm = document.getElementById('searchInput').value.toLowerCase();
+
+            let filtered = aiTools;
+
+            // 検索フィルター
+            if (searchTerm) {
+                filtered = filtered.filter(tool => 
+                    tool.name.toLowerCase().includes(searchTerm) ||
+                    tool.description.toLowerCase().includes(searchTerm) ||
+                    tool.features.some(feature => feature.toLowerCase().includes(searchTerm))
+                );
+            }
+
+            // カテゴリフィルター
+            if (categoryFilter) {
+                filtered = filtered.filter(tool => tool.category === categoryFilter);
+            }
+
+            // 料金フィルター
+            if (pricingFilter) {
+                filtered = filtered.filter(tool => tool.pricing === pricingFilter);
+            }
+
+            // 難易度フィルター
+            if (difficultyFilter) {
+                filtered = filtered.filter(tool => tool.difficulty === difficultyFilter);
+            }
+
+            filteredTools = filtered;
+            sortTools();
+        }
+
+        // ソート機能
+        function sortTools() {
+            const sortBy = document.getElementById('sortSelect').value;
+            
+            filteredTools.sort((a, b) => {
+                switch (sortBy) {
+                    case 'name':
+                        return a.name.localeCompare(b.name);
+                    case 'rating':
+                        return b.rating - a.rating;
+                    case 'popularity':
+                        return b.popularity - a.popularity;
+                    case 'price':
+                        const priceOrder = { 'free': 0, 'freemium': 1, 'paid': 2 };
+                        return priceOrder[a.pricing] - priceOrder[b.pricing];
+                    default:
+                        return 0;
+                }
+            });
+
+            displayTools(filteredTools);
+        }
+
+        // ツール詳細表示（モーダル機能は簡略化）
+        function showToolDetails(toolId) {
+            const tool = aiTools.find(t => t.id === toolId);
+            alert(`${tool.name}\n\n${tool.description}\n\n特徴: ${tool.features.join(', ')}\n\n料金: ${tool.price}\n評価: ${tool.rating}/5`);
+        }
+
+        // Enterキーで検索
+        document.getElementById('searchInput').addEventListener('keypress', function(event) {
+            if (event.key === 'Enter') {
+                searchTools();
+            }
+        });
+
+        // 初期表示
+        document.addEventListener('DOMContentLoaded', function() {
+            displayTools(aiTools);
+        });
+    </script>
+</body>
+</html>
