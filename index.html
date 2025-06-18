@@ -402,259 +402,20 @@
             margin-right: auto;
         }
 
-        .anime-girl-illustration {
-            position: absolute;
-            bottom: 5%;
-            right: 5%;
-            width: 300px;
-            height: 400px;
-            pointer-events: none;
-            z-index: -1;
-            opacity: 0.3;
-        }
-
-        .anime-girl {
-            position: relative;
-            width: 100%;
-            height: 100%;
-        }
-
-        .girl-head {
-            position: absolute;
-            top: 0;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 120px;
-            height: 140px;
-            background: linear-gradient(145deg, #ffd4b3 0%, #ffb380 100%);
-            border-radius: 50% 50% 45% 45%;
-            animation: girlFloat 4s ease-in-out infinite;
-        }
-
-        .girl-hair {
-            position: absolute;
-            top: -20px;
-            left: -15px;
-            width: 150px;
-            height: 120px;
-            background: linear-gradient(135deg, #8b4513 0%, #a0522d 50%, #cd853f 100%);
-            border-radius: 80% 80% 40% 40%;
-            transform: rotate(-5deg);
-        }
-
-        .girl-hair::before {
-            content: '';
-            position: absolute;
-            top: 30px;
-            right: -20px;
-            width: 40px;
-            height: 80px;
-            background: linear-gradient(145deg, #8b4513 0%, #a0522d 100%);
-            border-radius: 50%;
-            transform: rotate(20deg);
-        }
-
-        .girl-face {
-            position: absolute;
-            top: 30px;
-            left: 35px;
-            width: 50px;
-            height: 60px;
-        }
-
-        .girl-eyes {
-            position: absolute;
-            top: 15px;
-            left: 8px;
-            width: 8px;
-            height: 8px;
-            background: #2d3748;
-            border-radius: 50%;
-            animation: eyeBlink 3s infinite;
-        }
-
-        .girl-eyes::after {
-            content: '';
-            position: absolute;
-            left: 26px;
-            width: 8px;
-            height: 8px;
-            background: #2d3748;
-            border-radius: 50%;
-        }
-
-        .girl-mouth {
-            position: absolute;
-            top: 35px;
-            left: 20px;
-            width: 10px;
-            height: 5px;
-            border-radius: 0 0 10px 10px;
-            background: #ff6b6b;
-        }
-
-        .girl-body {
-            position: absolute;
-            top: 130px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 80px;
-            height: 120px;
-            background: linear-gradient(145deg, #ff8fab 0%, #ff5e82 100%);
-            border-radius: 40px 40px 20px 20px;
-        }
-
-        .girl-arms {
-            position: absolute;
-            top: 140px;
-            left: 35px;
-            width: 30px;
-            height: 80px;
-            background: linear-gradient(145deg, #ffd4b3 0%, #ffb380 100%);
-            border-radius: 15px;
-            transform: rotate(-20deg);
-            transform-origin: top;
-            animation: armMove 3s ease-in-out infinite;
-        }
-
-        .girl-arms::after {
-            content: '';
-            position: absolute;
-            right: -45px;
-            width: 30px;
-            height: 80px;
-            background: linear-gradient(145deg, #ffd4b3 0%, #ffb380 100%);
-            border-radius: 15px;
-            transform: rotate(40deg);
-            animation: armMove2 3s ease-in-out infinite;
-        }
-
-        .drawing-canvas {
-            position: absolute;
-            top: 180px;
-            left: 120px;
-            width: 80px;
-            height: 60px;
-            background: #ffffff;
-            border: 3px solid #8b4513;
-            border-radius: 5px;
-            transform: rotate(15deg);
-        }
-
-        .drawing-canvas::before {
-            content: '';
-            position: absolute;
-            top: 10px;
-            left: 10px;
-            width: 20px;
-            height: 15px;
-            background: linear-gradient(45deg, #ff6b6b 0%, #4ecdc4 50%, #45b7d1 100%);
-            border-radius: 3px;
-            animation: drawingGlow 2s ease-in-out infinite;
-        }
-
-        .drawing-canvas::after {
-            content: '';
-            position: absolute;
-            top: 30px;
-            left: 15px;
-            width: 30px;
-            height: 2px;
-            background: #333;
-            animation: drawingLine 4s ease-in-out infinite;
-        }
-
-        .art-brush {
-            position: absolute;
-            top: 170px;
-            left: 130px;
-            width: 60px;
-            height: 8px;
-            background: linear-gradient(90deg, #8b4513 0%, #ffd700 100%);
-            border-radius: 4px;
-            transform: rotate(45deg);
-            animation: brushMove 2s ease-in-out infinite;
-        }
-
-        .art-brush::before {
-            content: '';
-            position: absolute;
-            right: -5px;
-            top: -2px;
-            width: 12px;
-            height: 12px;
-            background: #ff6b6b;
-            border-radius: 50%;
-            animation: brushTip 2s ease-in-out infinite;
-        }
-
-        .sparkles {
-            position: absolute;
+        .background-artwork {
+            position: fixed;
             top: 0;
             left: 0;
-            width: 100%;
-            height: 100%;
-        }
-
-        .sparkle {
-            position: absolute;
-            width: 8px;
-            height: 8px;
-            background: #ffd700;
-            border-radius: 50%;
-            animation: sparkleAnimation 3s ease-in-out infinite;
-        }
-
-        .sparkle:nth-child(1) { top: 20%; left: 10%; animation-delay: 0s; }
-        .sparkle:nth-child(2) { top: 40%; left: 80%; animation-delay: 0.5s; }
-        .sparkle:nth-child(3) { top: 60%; left: 20%; animation-delay: 1s; }
-        .sparkle:nth-child(4) { top: 80%; left: 70%; animation-delay: 1.5s; }
-        .sparkle:nth-child(5) { top: 30%; left: 90%; animation-delay: 2s; }
-
-        @keyframes girlFloat {
-            0%, 100% { transform: translateX(-50%) translateY(0px); }
-            50% { transform: translateX(-50%) translateY(-10px); }
-        }
-
-        @keyframes eyeBlink {
-            0%, 90%, 100% { transform: scaleY(1); }
-            95% { transform: scaleY(0.1); }
-        }
-
-        @keyframes armMove {
-            0%, 100% { transform: rotate(-20deg); }
-            50% { transform: rotate(-30deg); }
-        }
-
-        @keyframes armMove2 {
-            0%, 100% { transform: rotate(40deg); }
-            50% { transform: rotate(50deg); }
-        }
-
-        @keyframes brushMove {
-            0%, 100% { transform: rotate(45deg) translateX(0px); }
-            50% { transform: rotate(50deg) translateX(5px); }
-        }
-
-        @keyframes brushTip {
-            0%, 100% { background: #ff6b6b; transform: scale(1); }
-            50% { background: #4ecdc4; transform: scale(1.2); }
-        }
-
-        @keyframes drawingGlow {
-            0%, 100% { opacity: 0.7; transform: scale(1); }
-            50% { opacity: 1; transform: scale(1.1); }
-        }
-
-        @keyframes drawingLine {
-            0% { width: 10px; }
-            50% { width: 40px; }
-            100% { width: 30px; }
-        }
-
-        @keyframes sparkleAnimation {
-            0%, 100% { opacity: 0; transform: scale(0.5); }
-            50% { opacity: 1; transform: scale(1.2); }
+            width: 100vw;
+            height: 100vh;
+            pointer-events: none;
+            z-index: -2;
+            opacity: 0.15;
+            background-image: url('https://github.com/user-attachments/assets/52886eb5-3035-49b7-bba8-1505be57cc8e');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
         }
 
         .search-section {
@@ -1006,6 +767,9 @@
         </div>
     </div>
 
+    <!-- Background Artwork -->
+    <div class="background-artwork"></div>
+
     <div class="container">
         <div class="header">
             <h1 class="title">
@@ -1023,30 +787,6 @@
                 AI画像動画生成Iツール検索プラットフォーム
             </h1>
             <p class="subtitle">プロフェッショナル向け最高品質の画像生成AIツールをご提供</p>
-        </div>
-
-        <!-- Anime Girl Illustration -->
-        <div class="anime-girl-illustration">
-            <div class="anime-girl">
-                <div class="girl-hair"></div>
-                <div class="girl-head">
-                    <div class="girl-face">
-                        <div class="girl-eyes"></div>
-                        <div class="girl-mouth"></div>
-                    </div>
-                </div>
-                <div class="girl-body"></div>
-                <div class="girl-arms"></div>
-                <div class="drawing-canvas"></div>
-                <div class="art-brush"></div>
-                <div class="sparkles">
-                    <div class="sparkle"></div>
-                    <div class="sparkle"></div>
-                    <div class="sparkle"></div>
-                    <div class="sparkle"></div>
-                    <div class="sparkle"></div>
-                </div>
-            </div>
         </div>
 
         <div class="search-section">
