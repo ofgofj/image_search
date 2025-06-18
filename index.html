@@ -20,6 +20,261 @@
             font-weight: 400;
             -webkit-font-smoothing: antialiased;
             -moz-osx-font-smoothing: grayscale;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        .ai-background {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            pointer-events: none;
+            z-index: -1;
+            overflow: hidden;
+        }
+
+        .neural-network {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+        }
+
+        .neural-node {
+            position: absolute;
+            width: 8px;
+            height: 8px;
+            background: radial-gradient(circle, #3b82f6 0%, rgba(59, 130, 246, 0.3) 70%, transparent 100%);
+            border-radius: 50%;
+            animation: nodePulse 3s ease-in-out infinite;
+        }
+
+        .neural-node:nth-child(1) { top: 10%; left: 15%; animation-delay: 0s; }
+        .neural-node:nth-child(2) { top: 25%; left: 85%; animation-delay: 0.5s; }
+        .neural-node:nth-child(3) { top: 45%; left: 12%; animation-delay: 1s; }
+        .neural-node:nth-child(4) { top: 60%; left: 78%; animation-delay: 1.5s; }
+        .neural-node:nth-child(5) { top: 80%; left: 25%; animation-delay: 2s; }
+        .neural-node:nth-child(6) { top: 35%; left: 45%; animation-delay: 2.5s; }
+        .neural-node:nth-child(7) { top: 70%; left: 55%; animation-delay: 3s; }
+        .neural-node:nth-child(8) { top: 15%; left: 65%; animation-delay: 3.5s; }
+
+        .neural-connection {
+            position: absolute;
+            height: 2px;
+            background: linear-gradient(90deg, transparent 0%, rgba(59, 130, 246, 0.4) 50%, transparent 100%);
+            transform-origin: left center;
+            animation: connectionFlow 4s ease-in-out infinite;
+        }
+
+        .circuit-pattern {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            opacity: 0.15;
+        }
+
+        .circuit-line {
+            position: absolute;
+            background: linear-gradient(90deg, transparent 0%, #0ea5e9 50%, transparent 100%);
+            animation: circuitFlow 6s linear infinite;
+        }
+
+        .circuit-line:nth-child(1) { 
+            width: 300px; height: 1px; top: 20%; left: -100px;
+            animation-delay: 0s;
+        }
+        .circuit-line:nth-child(2) { 
+            width: 250px; height: 1px; top: 40%; right: -100px;
+            animation-delay: 1s;
+            animation-direction: reverse;
+        }
+        .circuit-line:nth-child(3) { 
+            width: 400px; height: 1px; top: 65%; left: -150px;
+            animation-delay: 2s;
+        }
+        .circuit-line:nth-child(4) { 
+            width: 200px; height: 1px; top: 85%; right: -80px;
+            animation-delay: 3s;
+            animation-direction: reverse;
+        }
+
+        .data-particles {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+        }
+
+        .particle {
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            background: #06b6d4;
+            border-radius: 50%;
+            animation: particleFloat 8s linear infinite;
+            opacity: 0.6;
+        }
+
+        .particle:nth-child(1) { left: 10%; animation-delay: 0s; }
+        .particle:nth-child(2) { left: 30%; animation-delay: 1s; }
+        .particle:nth-child(3) { left: 50%; animation-delay: 2s; }
+        .particle:nth-child(4) { left: 70%; animation-delay: 3s; }
+        .particle:nth-child(5) { left: 90%; animation-delay: 4s; }
+
+        .binary-stream {
+            position: absolute;
+            font-family: 'Courier New', monospace;
+            font-size: 12px;
+            color: rgba(59, 130, 246, 0.3);
+            animation: binaryScroll 10s linear infinite;
+            white-space: nowrap;
+        }
+
+        .binary-stream:nth-child(1) {
+            top: 15%;
+            left: 100%;
+            animation-delay: 0s;
+        }
+        .binary-stream:nth-child(2) {
+            top: 45%;
+            right: 100%;
+            animation-delay: 2s;
+            animation-direction: reverse;
+        }
+        .binary-stream:nth-child(3) {
+            top: 75%;
+            left: 100%;
+            animation-delay: 4s;
+        }
+
+        .geometric-shapes {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+        }
+
+        .ai-shape {
+            position: absolute;
+            border: 1px solid rgba(59, 130, 246, 0.2);
+            animation: shapeRotate 12s linear infinite;
+        }
+
+        .ai-shape:nth-child(1) {
+            width: 60px;
+            height: 60px;
+            top: 30%;
+            left: 5%;
+            transform: rotate(45deg);
+            animation-delay: 0s;
+        }
+
+        .ai-shape:nth-child(2) {
+            width: 40px;
+            height: 40px;
+            top: 60%;
+            right: 10%;
+            border-radius: 50%;
+            animation-delay: 2s;
+        }
+
+        .ai-shape:nth-child(3) {
+            width: 80px;
+            height: 30px;
+            top: 80%;
+            left: 60%;
+            clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
+            animation-delay: 4s;
+        }
+
+        @keyframes nodePulse {
+            0%, 100% { 
+                transform: scale(1);
+                opacity: 0.6;
+            }
+            50% { 
+                transform: scale(1.5);
+                opacity: 1;
+            }
+        }
+
+        @keyframes connectionFlow {
+            0% {
+                opacity: 0;
+                transform: scaleX(0);
+            }
+            50% {
+                opacity: 1;
+                transform: scaleX(1);
+            }
+            100% {
+                opacity: 0;
+                transform: scaleX(0);
+            }
+        }
+
+        @keyframes circuitFlow {
+            0% {
+                transform: translateX(-100px);
+                opacity: 0;
+            }
+            20% {
+                opacity: 1;
+            }
+            80% {
+                opacity: 1;
+            }
+            100% {
+                transform: translateX(calc(100vw + 100px));
+                opacity: 0;
+            }
+        }
+
+        @keyframes particleFloat {
+            0% {
+                transform: translateY(100vh);
+                opacity: 0;
+            }
+            10% {
+                opacity: 1;
+            }
+            90% {
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(-100px);
+                opacity: 0;
+            }
+        }
+
+        @keyframes binaryScroll {
+            0% {
+                transform: translateX(0);
+                opacity: 0;
+            }
+            10% {
+                opacity: 1;
+            }
+            90% {
+                opacity: 1;
+            }
+            100% {
+                transform: translateX(-100vw);
+                opacity: 0;
+            }
+        }
+
+        @keyframes shapeRotate {
+            0% {
+                transform: rotate(0deg) scale(1);
+                opacity: 0.2;
+            }
+            50% {
+                opacity: 0.4;
+            }
+            100% {
+                transform: rotate(360deg) scale(1.1);
+                opacity: 0.2;
+            }
         }
 
         .container {
@@ -446,6 +701,50 @@
     </style>
 </head>
 <body>
+    <!-- AI Background Illustrations -->
+    <div class="ai-background">
+        <!-- Neural Network Nodes -->
+        <div class="neural-network">
+            <div class="neural-node"></div>
+            <div class="neural-node"></div>
+            <div class="neural-node"></div>
+            <div class="neural-node"></div>
+            <div class="neural-node"></div>
+            <div class="neural-node"></div>
+            <div class="neural-node"></div>
+            <div class="neural-node"></div>
+        </div>
+        
+        <!-- Circuit Pattern Lines -->
+        <div class="circuit-pattern">
+            <div class="circuit-line"></div>
+            <div class="circuit-line"></div>
+            <div class="circuit-line"></div>
+            <div class="circuit-line"></div>
+        </div>
+        
+        <!-- Floating Data Particles -->
+        <div class="data-particles">
+            <div class="particle"></div>
+            <div class="particle"></div>
+            <div class="particle"></div>
+            <div class="particle"></div>
+            <div class="particle"></div>
+        </div>
+        
+        <!-- Binary Code Streams -->
+        <div class="binary-stream">01101001 11000001 10101100 01110011 11001010 10110101 01101001 11000001 10101100</div>
+        <div class="binary-stream">11100110 00010001 10101010 11110000 01010101 11001100 11100110 00010001 10101010</div>
+        <div class="binary-stream">10011011 01101110 11001001 00110110 10101010 01010101 10011011 01101110 11001001</div>
+        
+        <!-- Geometric AI Shapes -->
+        <div class="geometric-shapes">
+            <div class="ai-shape"></div>
+            <div class="ai-shape"></div>
+            <div class="ai-shape"></div>
+        </div>
+    </div>
+
     <div class="container">
         <div class="header">
             <h1 class="title">
