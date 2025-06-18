@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>画像生成AIツール検索システム</title>
+    <title>プレミアム画像生成AI検索プラットフォーム</title>
     <style>
         * {
             margin: 0;
@@ -12,19 +12,283 @@
         }
 
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            font-family: 'Inter', 'Segoe UI', 'Roboto', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: linear-gradient(135deg, #0f172a 0%, #1e293b 25%, #334155 50%, #0f172a 100%);
+            background-attachment: fixed;
             min-height: 100vh;
             padding: 20px;
+            font-weight: 400;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        .ai-background {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            pointer-events: none;
+            z-index: -1;
+            overflow: hidden;
+        }
+
+        .neural-network {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+        }
+
+        .neural-node {
+            position: absolute;
+            width: 8px;
+            height: 8px;
+            background: radial-gradient(circle, #3b82f6 0%, rgba(59, 130, 246, 0.3) 70%, transparent 100%);
+            border-radius: 50%;
+            animation: nodePulse 3s ease-in-out infinite;
+        }
+
+        .neural-node:nth-child(1) { top: 10%; left: 15%; animation-delay: 0s; }
+        .neural-node:nth-child(2) { top: 25%; left: 85%; animation-delay: 0.5s; }
+        .neural-node:nth-child(3) { top: 45%; left: 12%; animation-delay: 1s; }
+        .neural-node:nth-child(4) { top: 60%; left: 78%; animation-delay: 1.5s; }
+        .neural-node:nth-child(5) { top: 80%; left: 25%; animation-delay: 2s; }
+        .neural-node:nth-child(6) { top: 35%; left: 45%; animation-delay: 2.5s; }
+        .neural-node:nth-child(7) { top: 70%; left: 55%; animation-delay: 3s; }
+        .neural-node:nth-child(8) { top: 15%; left: 65%; animation-delay: 3.5s; }
+
+        .neural-connection {
+            position: absolute;
+            height: 2px;
+            background: linear-gradient(90deg, transparent 0%, rgba(59, 130, 246, 0.4) 50%, transparent 100%);
+            transform-origin: left center;
+            animation: connectionFlow 4s ease-in-out infinite;
+        }
+
+        .circuit-pattern {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            opacity: 0.15;
+        }
+
+        .circuit-line {
+            position: absolute;
+            background: linear-gradient(90deg, transparent 0%, #0ea5e9 50%, transparent 100%);
+            animation: circuitFlow 6s linear infinite;
+        }
+
+        .circuit-line:nth-child(1) { 
+            width: 300px; height: 1px; top: 20%; left: -100px;
+            animation-delay: 0s;
+        }
+        .circuit-line:nth-child(2) { 
+            width: 250px; height: 1px; top: 40%; right: -100px;
+            animation-delay: 1s;
+            animation-direction: reverse;
+        }
+        .circuit-line:nth-child(3) { 
+            width: 400px; height: 1px; top: 65%; left: -150px;
+            animation-delay: 2s;
+        }
+        .circuit-line:nth-child(4) { 
+            width: 200px; height: 1px; top: 85%; right: -80px;
+            animation-delay: 3s;
+            animation-direction: reverse;
+        }
+
+        .data-particles {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+        }
+
+        .particle {
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            background: #06b6d4;
+            border-radius: 50%;
+            animation: particleFloat 8s linear infinite;
+            opacity: 0.6;
+        }
+
+        .particle:nth-child(1) { left: 10%; animation-delay: 0s; }
+        .particle:nth-child(2) { left: 30%; animation-delay: 1s; }
+        .particle:nth-child(3) { left: 50%; animation-delay: 2s; }
+        .particle:nth-child(4) { left: 70%; animation-delay: 3s; }
+        .particle:nth-child(5) { left: 90%; animation-delay: 4s; }
+
+        .binary-stream {
+            position: absolute;
+            font-family: 'Courier New', monospace;
+            font-size: 12px;
+            color: rgba(59, 130, 246, 0.3);
+            animation: binaryScroll 10s linear infinite;
+            white-space: nowrap;
+        }
+
+        .binary-stream:nth-child(1) {
+            top: 15%;
+            left: 100%;
+            animation-delay: 0s;
+        }
+        .binary-stream:nth-child(2) {
+            top: 45%;
+            right: 100%;
+            animation-delay: 2s;
+            animation-direction: reverse;
+        }
+        .binary-stream:nth-child(3) {
+            top: 75%;
+            left: 100%;
+            animation-delay: 4s;
+        }
+
+        .geometric-shapes {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+        }
+
+        .ai-shape {
+            position: absolute;
+            border: 1px solid rgba(59, 130, 246, 0.2);
+            animation: shapeRotate 12s linear infinite;
+        }
+
+        .ai-shape:nth-child(1) {
+            width: 60px;
+            height: 60px;
+            top: 30%;
+            left: 5%;
+            transform: rotate(45deg);
+            animation-delay: 0s;
+        }
+
+        .ai-shape:nth-child(2) {
+            width: 40px;
+            height: 40px;
+            top: 60%;
+            right: 10%;
+            border-radius: 50%;
+            animation-delay: 2s;
+        }
+
+        .ai-shape:nth-child(3) {
+            width: 80px;
+            height: 30px;
+            top: 80%;
+            left: 60%;
+            clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
+            animation-delay: 4s;
+        }
+
+        @keyframes nodePulse {
+            0%, 100% { 
+                transform: scale(1);
+                opacity: 0.6;
+            }
+            50% { 
+                transform: scale(1.5);
+                opacity: 1;
+            }
+        }
+
+        @keyframes connectionFlow {
+            0% {
+                opacity: 0;
+                transform: scaleX(0);
+            }
+            50% {
+                opacity: 1;
+                transform: scaleX(1);
+            }
+            100% {
+                opacity: 0;
+                transform: scaleX(0);
+            }
+        }
+
+        @keyframes circuitFlow {
+            0% {
+                transform: translateX(-100px);
+                opacity: 0;
+            }
+            20% {
+                opacity: 1;
+            }
+            80% {
+                opacity: 1;
+            }
+            100% {
+                transform: translateX(calc(100vw + 100px));
+                opacity: 0;
+            }
+        }
+
+        @keyframes particleFloat {
+            0% {
+                transform: translateY(100vh);
+                opacity: 0;
+            }
+            10% {
+                opacity: 1;
+            }
+            90% {
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(-100px);
+                opacity: 0;
+            }
+        }
+
+        @keyframes binaryScroll {
+            0% {
+                transform: translateX(0);
+                opacity: 0;
+            }
+            10% {
+                opacity: 1;
+            }
+            90% {
+                opacity: 1;
+            }
+            100% {
+                transform: translateX(-100vw);
+                opacity: 0;
+            }
+        }
+
+        @keyframes shapeRotate {
+            0% {
+                transform: rotate(0deg) scale(1);
+                opacity: 0.2;
+            }
+            50% {
+                opacity: 0.4;
+            }
+            100% {
+                transform: rotate(360deg) scale(1.1);
+                opacity: 0.2;
+            }
         }
 
         .container {
             max-width: 1200px;
             margin: 0 auto;
-            background: rgba(255, 255, 255, 0.95);
-            border-radius: 20px;
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
-            padding: 40px;
+            background: linear-gradient(145deg, rgba(255, 255, 255, 0.1), rgba(248, 250, 252, 0.05));
+            border-radius: 24px;
+            box-shadow: 
+                0 32px 64px rgba(30, 41, 59, 0.15),
+                0 0 0 1px rgba(148, 163, 184, 0.1),
+                inset 0 1px 0 rgba(255, 255, 255, 0.4);
+            padding: 48px;
+            backdrop-filter: blur(5px);
+            border: 1px solid rgba(148, 163, 184, 0.15);
         }
 
         .header {
@@ -33,15 +297,127 @@
         }
 
         .title {
-            font-size: 2.5em;
-            color: #333;
-            margin-bottom: 10px;
-            font-weight: 700;
+            font-size: 3.2em;
+            font-family: 'Inter', 'SF Pro Display', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: linear-gradient(135deg, #1e40af 0%, #3b82f6 25%, #0ea5e9 50%, #06b6d4 75%, #0891b2 100%);
+            background-size: 200% 200%;
+            background-clip: text;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: gradientShift 6s ease-in-out infinite;
+            margin-bottom: 16px;
+            font-weight: 800;
+            position: relative;
+            display: inline-block;
+            cursor: pointer;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            letter-spacing: -0.025em;
+            line-height: 1.1;
+            filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3));
         }
 
+        .title:hover {
+            transform: translateY(-8px) scale(1.08);
+            filter: drop-shadow(0 16px 32px rgba(30, 64, 175, 0.4)) drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3));
+        }
+
+        .title-icon {
+            display: inline-block;
+            margin-right: 20px;
+            font-size: 1.4em;
+            position: relative;
+            animation: iconFloat 3s ease-in-out infinite;
+            transition: all 0.3s ease;
+            filter: drop-shadow(0 4px 8px rgba(30, 64, 175, 0.2));
+        }
+
+        .title:hover .title-icon {
+            animation: iconSpin 0.6s ease-in-out, iconFloat 3s ease-in-out infinite;
+            transform: scale(1.3);
+            filter: drop-shadow(0 0 16px rgba(59, 130, 246, 0.8));
+        }
+
+        .icon-stack {
+            position: relative;
+            display: inline-block;
+        }
+
+        .icon-stack .icon {
+            position: absolute;
+            top: 0;
+            left: 0;
+            opacity: 0;
+            transition: opacity 0.5s ease;
+        }
+
+        .icon-stack .icon.active {
+            opacity: 1;
+        }
+
+        @keyframes iconFloat {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-8px) rotate(5deg); }
+        }
+
+        @keyframes iconSpin {
+            0% { transform: rotate(0deg) scale(1); }
+            50% { transform: rotate(180deg) scale(1.3); }
+            100% { transform: rotate(360deg) scale(1.2); }
+        }
+
+        @keyframes gradientShift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        .title::before {
+            content: '';
+            position: absolute;
+            top: -8px;
+            left: -8px;
+            right: -8px;
+            bottom: -8px;
+            background: linear-gradient(45deg, #1e40af, #3b82f6, #0ea5e9, #06b6d4, #0891b2, #1d4ed8);
+            background-size: 400% 400%;
+            animation: gradientShift 6s ease infinite;
+            border-radius: 20px;
+            z-index: -1;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .title:hover::before {
+            opacity: 0.15;
+        }
+
+
         .subtitle {
-            font-size: 1.1em;
-            color: #666;
+            font-size: 1.25em;
+            color: #475569;
+            font-weight: 500;
+            margin-top: 8px;
+            line-height: 1.5;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+            text-shadow: 0 1px 2px rgba(255, 255, 255, 0.8);
+        }
+
+        .background-artwork {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            pointer-events: none;
+            z-index: -2;
+            opacity: 0.4;
+            background-image: url('https://github.com/user-attachments/assets/52886eb5-3035-49b7-bba8-1505be57cc8e');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
         }
 
         .search-section {
@@ -67,25 +443,30 @@
         }
 
         .search-input:focus {
-            border-color: #667eea;
-            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+            border-color: #3b82f6;
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.15);
         }
 
         .search-btn {
-            padding: 15px 30px;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 15px 32px;
+            background: linear-gradient(135deg, #1e40af 0%, #3b82f6 100%);
             color: white;
             border: none;
             border-radius: 50px;
             font-size: 16px;
-            font-weight: 600;
+            font-weight: 700;
             cursor: pointer;
             transition: all 0.3s ease;
+            box-shadow: 
+                0 4px 12px rgba(30, 64, 175, 0.3),
+                0 0 0 1px rgba(59, 130, 246, 0.1);
         }
 
         .search-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 10px 20px rgba(102, 126, 234, 0.3);
+            transform: translateY(-3px);
+            box-shadow: 
+                0 12px 24px rgba(30, 64, 175, 0.4),
+                0 0 0 1px rgba(59, 130, 246, 0.2);
         }
 
         .filters {
@@ -143,12 +524,13 @@
         }
 
         .tool-card {
-            background: white;
+            background: rgba(255, 255, 255, 0.95);
             border-radius: 15px;
             padding: 25px;
             box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
             transition: all 0.3s ease;
             border: 1px solid #f0f0f0;
+            backdrop-filter: blur(10px);
         }
 
         .tool-card:hover {
@@ -164,16 +546,19 @@
         }
 
         .tool-icon {
-            width: 50px;
-            height: 50px;
-            border-radius: 10px;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            width: 56px;
+            height: 56px;
+            border-radius: 14px;
+            background: linear-gradient(135deg, #1e40af 0%, #3b82f6 100%);
             display: flex;
             align-items: center;
             justify-content: center;
             color: white;
             font-weight: bold;
-            font-size: 20px;
+            font-size: 22px;
+            box-shadow: 
+                0 6px 16px rgba(30, 64, 175, 0.25),
+                0 0 0 1px rgba(59, 130, 246, 0.1);
         }
 
         .tool-info h3 {
@@ -261,14 +646,15 @@
         }
 
         .btn-primary {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(135deg, #1e40af 0%, #3b82f6 100%);
             color: white;
+            box-shadow: 0 4px 12px rgba(30, 64, 175, 0.3);
         }
 
         .btn-secondary {
             background: white;
-            color: #667eea;
-            border: 2px solid #667eea;
+            color: #1e40af;
+            border: 2px solid #3b82f6;
         }
 
         .btn:hover {
@@ -306,7 +692,19 @@
             }
             
             .title {
-                font-size: 2em;
+                font-size: 1.8em;
+            }
+            
+            .title-icon {
+                font-size: 1em;
+                margin-right: 10px;
+            }
+            
+            .anime-girl-illustration {
+                width: 200px;
+                height: 280px;
+                bottom: 2%;
+                right: 2%;
             }
             
             .search-container {
@@ -328,10 +726,70 @@
     </style>
 </head>
 <body>
+    <!-- AI Background Illustrations -->
+    <div class="ai-background">
+        <!-- Neural Network Nodes -->
+        <div class="neural-network">
+            <div class="neural-node"></div>
+            <div class="neural-node"></div>
+            <div class="neural-node"></div>
+            <div class="neural-node"></div>
+            <div class="neural-node"></div>
+            <div class="neural-node"></div>
+            <div class="neural-node"></div>
+            <div class="neural-node"></div>
+        </div>
+        
+        <!-- Circuit Pattern Lines -->
+        <div class="circuit-pattern">
+            <div class="circuit-line"></div>
+            <div class="circuit-line"></div>
+            <div class="circuit-line"></div>
+            <div class="circuit-line"></div>
+        </div>
+        
+        <!-- Floating Data Particles -->
+        <div class="data-particles">
+            <div class="particle"></div>
+            <div class="particle"></div>
+            <div class="particle"></div>
+            <div class="particle"></div>
+            <div class="particle"></div>
+        </div>
+        
+        <!-- Binary Code Streams -->
+        <div class="binary-stream">01101001 11000001 10101100 01110011 11001010 10110101 01101001 11000001 10101100</div>
+        <div class="binary-stream">11100110 00010001 10101010 11110000 01010101 11001100 11100110 00010001 10101010</div>
+        <div class="binary-stream">10011011 01101110 11001001 00110110 10101010 01010101 10011011 01101110 11001001</div>
+        
+        <!-- Geometric AI Shapes -->
+        <div class="geometric-shapes">
+            <div class="ai-shape"></div>
+            <div class="ai-shape"></div>
+            <div class="ai-shape"></div>
+        </div>
+    </div>
+
+    <!-- Background Artwork -->
+    <div class="background-artwork"></div>
+
     <div class="container">
         <div class="header">
-            <h1 class="title">🎨 AI画像生成ツール検索</h1>
-            <p class="subtitle">あなたにぴったりの画像生成AIツールを見つけよう</p>
+            <h1 class="title">
+                <span class="title-icon">
+                    <span class="icon-stack">
+                        <span class="icon active">🏆</span>
+                        <span class="icon">💼</span>
+                        <span class="icon">🔮</span>
+                        <span class="icon">⚡</span>
+                        <span class="icon">🎯</span>
+                        <span class="icon">💎</span>
+                        <span class="icon">🌟</span>
+                    </span>
+                </span>
+                AI画像動画生成Iツール検索プラットフォーム
+            </h1>
+            <p class="subtitle">プロフェッショナル向け最高品質の画像生成AIツールをご提供</p>
         </div>
 
         <div class="search-section">
@@ -377,7 +835,7 @@
 
         <div class="results-section">
             <div class="results-header">
-                <div class="results-count" id="resultsCount">全24個のツールが見つかりました</div>
+                <div class="results-count" id="resultsCount">全24個のプレミアムツールが見つかりました</div>
                 <div class="sort-container">
                     <label class="filter-label">並び替え:</label>
                     <select class="filter-select" id="sortSelect" onchange="sortTools()">
@@ -401,7 +859,7 @@
         </div>
 
         <div class="footer">
-            <p>&copy; 2024 AI画像生成ツール検索システム. Made with ❤️ for creators.</p>
+            <p>&copy; 2024 プレミアムAI画像生成プラットフォーム. Made with 💎 for professionals.</p>
         </div>
     </div>
 
@@ -907,9 +1365,52 @@
             }
         });
 
+        // アイコンローテーション機能
+        function rotateIcons() {
+            const icons = document.querySelectorAll('.icon-stack .icon');
+            let currentIndex = 0;
+            
+            // 最初のアイコンをアクティブにする
+            icons[currentIndex].classList.add('active');
+            
+            setInterval(() => {
+                // 現在のアイコンを非アクティブにする
+                icons[currentIndex].classList.remove('active');
+                
+                // 次のアイコンに移る
+                currentIndex = (currentIndex + 1) % icons.length;
+                
+                // 新しいアイコンをアクティブにする
+                icons[currentIndex].classList.add('active');
+            }, 2000); // 2秒ごとに切り替え
+        }
+
+        // タイトルクリック時の特別エフェクト
+        function addTitleClickEffect() {
+            const title = document.querySelector('.title');
+            title.addEventListener('click', function() {
+                // 全アイコンを一瞬で切り替えるエフェクト
+                const icons = document.querySelectorAll('.icon-stack .icon');
+                let fastRotateIndex = 0;
+                
+                const fastRotate = setInterval(() => {
+                    icons.forEach(icon => icon.classList.remove('active'));
+                    icons[fastRotateIndex].classList.add('active');
+                    fastRotateIndex = (fastRotateIndex + 1) % icons.length;
+                }, 100);
+                
+                // 1秒後に高速ローテーションを停止
+                setTimeout(() => {
+                    clearInterval(fastRotate);
+                }, 1000);
+            });
+        }
+
         // 初期表示
         document.addEventListener('DOMContentLoaded', function() {
             displayTools(aiTools);
+            rotateIcons();
+            addTitleClickEffect();
         });
     </script>
 </body>
